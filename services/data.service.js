@@ -24,11 +24,11 @@ module.exports = {
         }
     },
     created(){
-        const app = express();
-        app.use(bodyParser.urlencoded({extended: false}));
-        app.use(bodyParser.json());
-        app.listen(this.settings.port);
-        this.initRoutes(app);
-        this.app=app;
+        // const app = express();
+        // app.use(bodyParser.urlencoded({extended: false}));
+        // app.use(bodyParser.json());
+        // app.listen(this.settings.port);
+        // this.initRoutes(app);
+        // this.app=app;
     }
 }
