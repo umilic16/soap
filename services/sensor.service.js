@@ -39,12 +39,13 @@ var swaggerDefinition = {
     // import swaggerDefinitions
     swaggerDefinition: swaggerDefinition,
     // path to the API docs
-    apis: ['sensor.service.js'],
+    apis: ["sensor.service.js"],
   };
   
   // initialize swagger-jsdoc
   var swaggerSpec = swaggerJsDoc(options);
 
+//swagger odbija da saradjuje posle 100000 pokusaja
 
 module.exports = {
     name: "sensor",
@@ -78,31 +79,24 @@ module.exports = {
                 }
             })
         },
-        scanData(data,index){
-        },
         initRoutes(app){
             /**
              * @swagger
+             * path:
+             *  /sensor:
              * get:
              *  description: Get
              */
             app.get("/sensor",this.getParams);
             /**
              * @swagger
+             * path:
+             *  /sensor:
              * post:
              *  description: Post
              */
             app.post("/sensor",this.setParams);
         },
-        /**
-         * @swagger
-         *  /sensor:
-         *  get:
-         *      description: Get request za dobijanje trenutnih parametra senzora
-         *  responses:
-         *  200:
-         *      description: Uspesan zahtev, request daje parametre senzora
-         */
         getParams(req, res){
             res.json({
                 type: this.type,
@@ -110,15 +104,6 @@ module.exports = {
                 threshold: this.threshold
             })
         },
-        /**
-         * @swagger
-         * /sensor:
-         * post:
-         *  description: Post request za izmenu parametra senzora
-         * responses:
-         * 200:
-         *  description: Uspesan zahtev, promenjeni parametri senzora
-         */
         setParams(req, res){
             const body = req.body;
             this.type = body.type;
@@ -131,10 +116,10 @@ module.exports = {
         const app = express();
         app.use(bodyParser.urlencoded({extended: false}));
         app.use(bodyParser.json());
+        app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
         app.listen(this.settings.port);
         this.initRoutes(app);
         this.init();
         this.app=app;
-        app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
     }
 }
