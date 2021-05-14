@@ -3,6 +3,9 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 
+const fs = require('fs')
+
+
 module.exports = {
     name: "sensor",
     settings: {
@@ -14,18 +17,29 @@ module.exports = {
             this.interval=1000;
             this.threshold=0;
             this.index=0;
-            this.data = json.parse("../dodgecoinstats.json");
-            while(1){
-                this.element=data[index]["Open"];
-                if(element>threshold)
-                {
-                    console.log("Current element: ", element);
-                    this.broker.emit("data.recieved", element);
+            fs.readFile('dodgecoinstats.json', 'utf8', (err, jsonString) => {
+                if (err) {
+                    console.log("Error reading file from disk:", err)
+                    return
                 }
-                else
-                    setTimeout(interval);
-                index++;
-            }
+                try {
+                    const data = JSON.parse(jsonString)
+                    console.log("Data read from file:", data)
+                    while(1){
+                        this.element=data[index]["Open"];
+                        if(element>threshold)
+                        {
+                            console.log("Current element: ", element);
+                            this.broker.emit("data.recieved", element);
+                        }
+                        else
+                            setTimeout(interval);
+                        index++;
+                    }
+                } catch(err) {
+                    console.log('Error parsing JSON string:', err)
+                }
+            })
         },
         initRoutes(app){
             app.get("/sensor",this.getParams);
