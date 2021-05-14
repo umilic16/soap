@@ -14,7 +14,7 @@ module.exports = {
     methods: {
         init(){
             this.type="default";
-            this.interval=1000;
+            this.interval=5000;
             this.threshold=50;
             fs.readFile('dodgecoinstats.json', 'utf8', (err, jsonString) => {
                 if (err) {
@@ -24,23 +24,21 @@ module.exports = {
                 try {
                     const data = JSON.parse(jsonString)
                     let index = 0;
-                    var intr = setInterval(() =>
-                    {
+                    var intr = setInterval(() =>{
                         let element=data[index];
                         //console.log("Current element: ", element);
                         if(element["Open"]>this.threshold)
                             var a;
                         this.broker.emit("data.recieved", element);
                         index++;
-                        clearInterval(intr);
                     }, this.interval);
+                    // this.scanData(data,index);
                 } catch(err) {
                     console.log('Error parsing JSON string:', err)
                 }
             })
         },
         scanData(data,index){
-
         },
         initRoutes(app){
             app.get("/sensor",this.getParams);
