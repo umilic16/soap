@@ -113,15 +113,6 @@ module.exports = {
         }
     },
     created(){
-<<<<<<< HEAD
-        // const app = express();
-        // app.use(bodyParser.urlencoded({extended: false}));
-        // app.use(bodyParser.json());
-        // app.listen(this.settings.port);
-        // this.initRoutes(app);
-        // this.init();
-        // this.app=app;
-=======
         const app = express();
         app.use(bodyParser.urlencoded({extended: false}));
         app.use(bodyParser.json());
@@ -130,6 +121,5 @@ module.exports = {
         this.initRoutes(app);
         this.init();
         this.app=app;
->>>>>>> 7b2a323d5c22e8bf5abeec973d55bdf2ab14d423
     }
 }
