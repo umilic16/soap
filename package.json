@@ -16,6 +16,8 @@
     "moleculer-db-adapter-mongo": "^0.4.8",
     "moleculer-repl": "^0.6.4",
     "mongodb": "^3.5.7",
-    "nats": "^1.4.8"
+    "nats": "^1.4.8",
+    "swagger-jsdoc": "^7.0.0-rc.6",
+    "swagger-ui-express": "^4.1.6"
   }
 }

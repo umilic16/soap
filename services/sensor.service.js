@@ -5,6 +5,24 @@ const bodyParser = require("body-parser")
 
 const fs = require('fs')
 
+// const swaggerJsDoc = require("swagger-jsdoc")
+// const swaggerUi = require("swagger-ui-express")
+
+// const swaggerOptions = {
+//     swaggerDefinition: {
+//         info:{
+//             title: "Sensor API",
+//             description: "Sensor Device Microservice",
+//             contact:{
+//                 name: "Uros Milic"
+//             },
+//             servers: ["http://localhost:3000"]
+//         }
+//     },
+//     apis:["sensor.service.js"]
+// };
+
+// const swaggerSpec = swaggerJsDoc(swaggerOptions);
 
 module.exports = {
     name: "sensor",
@@ -64,6 +82,7 @@ module.exports = {
         app.use(bodyParser.urlencoded({extended: false}));
         app.use(bodyParser.json());
         app.listen(this.settings.port);
+        app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
         this.initRoutes(app);
         this.init();
         this.app=app;
