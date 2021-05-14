@@ -16,6 +16,15 @@ module.exports = {
         initRoutes(app){
             app.get("/data",this.getData); 
         },
+        /** 
+         * @swagger
+         * /data:
+         * get:
+         *  description: Get request koji vraca sve podatke upisane u bazu
+         * responses:
+         *  200:
+         *      description: Uspesan zahtev..........
+        */
         getData(req, res){
             this.adapter.find().then((result)=>{
                 res.send(result);

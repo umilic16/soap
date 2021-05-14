@@ -5,24 +5,46 @@ const bodyParser = require("body-parser")
 
 const fs = require('fs')
 
-// const swaggerJsDoc = require("swagger-jsdoc")
-// const swaggerUi = require("swagger-ui-express")
+const swaggerJsDoc = require("swagger-jsdoc")
+const swaggerUi = require("swagger-ui-express")
 
 // const swaggerOptions = {
 //     swaggerDefinition: {
 //         info:{
-//             title: "Sensor API",
-//             description: "Sensor Device Microservice",
+//             title: "API Documentation",
+//             description: "Projekat 1 - SOA. API Documentation",
 //             contact:{
 //                 name: "Uros Milic"
 //             },
 //             servers: ["http://localhost:3000"]
 //         }
 //     },
-//     apis:["sensor.service.js"]
+//     apis:[".services/*.js"]
 // };
 
 // const swaggerSpec = swaggerJsDoc(swaggerOptions);
+// swagger definition
+var swaggerDefinition = {
+    info: {
+      title: 'Node Swagger API',
+      version: '1.0.0',
+      description: 'Demonstrating how to describe a RESTful API with Swagger',
+    },
+    host: 'localhost:3000',
+    basePath: '/',
+  };
+  
+  // options for the swagger docs
+  var options = {
+    // import swaggerDefinitions
+    swaggerDefinition: swaggerDefinition,
+    // path to the API docs
+    apis: ['sensor.service.js'],
+  };
+  
+  // initialize swagger-jsdoc
+  var swaggerSpec = swaggerJsDoc(options);
+
 
 module.exports = {
     name: "sensor",
@@ -59,9 +81,28 @@ module.exports = {
         scanData(data,index){
         },
         initRoutes(app){
+            /**
+             * @swagger
+             * get:
+             *  description: Get
+             */
             app.get("/sensor",this.getParams);
+            /**
+             * @swagger
+             * post:
+             *  description: Post
+             */
             app.post("/sensor",this.setParams);
         },
+        /**
+         * @swagger
+         *  /sensor:
+         *  get:
+         *      description: Get request za dobijanje trenutnih parametra senzora
+         *  responses:
+         *  200:
+         *      description: Uspesan zahtev, request daje parametre senzora
+         */
         getParams(req, res){
             res.json({
                 type: this.type,
@@ -69,6 +110,15 @@ module.exports = {
                 threshold: this.threshold
             })
         },
+        /**
+         * @swagger
+         * /sensor:
+         * post:
+         *  description: Post request za izmenu parametra senzora
+         * responses:
+         * 200:
+         *  description: Uspesan zahtev, promenjeni parametri senzora
+         */
         setParams(req, res){
             const body = req.body;
             this.type = body.type;
@@ -82,9 +132,9 @@ module.exports = {
         app.use(bodyParser.urlencoded({extended: false}));
         app.use(bodyParser.json());
         app.listen(this.settings.port);
-        app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
         this.initRoutes(app);
         this.init();
         this.app=app;
+        app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
     }
 }
