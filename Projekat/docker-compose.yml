@@ -1,0 +1,30 @@
+version: '3.0'
+services:
+    nats:
+      image: nats:latest
+    sensor:
+      build:
+        context: .
+      image: service-sensor
+      env_file: docker-compose.env
+      environment:
+        NODEID: "node-sensor"
+        SERVICES: sensor
+        PORT: 4222
+      ports:
+        - "4222:4222"
+      depends_on:
+        - nats
+    data:
+      build:
+        context: .
+      image: service-data
+      env_file: docker-compose.env
+      environment:
+        NODEID: "node-data"
+        SERVICES: data
+        PORT: 5000
+      ports:
+        - "5000:80"
+      depends_on:
+        - nats
