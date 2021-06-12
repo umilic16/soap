@@ -15,6 +15,7 @@ module.exports = {
     methods: {
         initRoutes(app){
             app.get("/data",this.getData); 
+            app.get("/data/:id",this.getByID);
         },
         /** 
          * @swagger
@@ -30,6 +31,13 @@ module.exports = {
                 res.send(result);
             })
         },
+        getByID(req, res){
+            console.log(req.params.id);
+            this.adapter.find(req.params.id).then((result)=>{
+                console.log(result);
+                res.send(result);
+            })
+        },
     },
     events: {
         "data.recieved" : {
@@ -41,11 +49,11 @@ module.exports = {
         }
     },
     created(){
-        // const app = express();
-        // app.use(bodyParser.urlencoded({extended: false}));
-        // app.use(bodyParser.json());
-        // app.listen(this.settings.port);
-        // this.initRoutes(app);
-        // this.app=app;
+        const app = express();
+        app.use(bodyParser.urlencoded({extended: false}));
+        app.use(bodyParser.json());
+        app.listen(this.settings.port);
+        this.initRoutes(app);
+        this.app=app;
     }
 }

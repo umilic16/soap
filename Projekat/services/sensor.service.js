@@ -56,28 +56,8 @@ module.exports = {
         init(){
             this.type="default";
             this.interval=5000;
-            this.threshold=50;
-            fs.readFile('dodgecoinstats.json', 'utf8', (err, jsonString) => {
-                if (err) {
-                    console.log("Error reading file from disk:", err)
-                    return
-                }
-                try {
-                    const data = JSON.parse(jsonString)
-                    let index = 0;
-                    var intr = setInterval(() =>{
-                        let element=data[index];
-                        //console.log("Current element: ", element);
-                        if(element["Open"]>this.threshold)
-                            var a;
-                        this.broker.emit("data.recieved", element);
-                        index++;
-                    }, this.interval);
-                    // this.scanData(data,index);
-                } catch(err) {
-                    console.log('Error parsing JSON string:', err)
-                }
-            })
+            this.threshold=0.0004;
+            this.startReading();
         },
         initRoutes(app){
             /**
@@ -97,6 +77,28 @@ module.exports = {
              */
             app.post("/sensor",this.setParams);
         },
+        startReading(){
+            fs.readFile('dodgecoinstats.json', 'utf8', (err, jsonString) => {
+                if (err) {
+                    console.log("Error reading file from disk:", err)
+                    return
+                }
+                try {
+                    const data = JSON.parse(jsonString)
+                    let index = 0;
+                    this.intr = setInterval(() =>{
+                        let element=data[index];
+                        console.log(element["Open"], this.interval, this.threshold);
+                        if(element["Open"]>this.threshold)
+                            this.broker.emit("data.recieved", element);
+                        index++;
+                    }, this.interval);
+                    // this.scanData(data,index);
+                } catch(err) {
+                    console.log('Error parsing JSON string:', err)
+                }
+            })
+        },
         getParams(req, res){
             res.json({
                 type: this.type,
@@ -109,6 +111,8 @@ module.exports = {
             this.type = body.type;
             this.interval = body.interval;
             this.threshold = body.threshold;
+            clearInterval(this.intr);
+            this.startReading();
             res.send("Sensor edited");
         }
     },
