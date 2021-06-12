@@ -16,6 +16,7 @@
     "moleculer-db-adapter-mongo": "^0.4.8",
     "moleculer-repl": "^0.6.4",
     "mongodb": "^3.5.7",
+    "mqtt": "^4.2.6",
     "nats": "^1.4.8",
     "swagger-jsdoc": "^6.0.0",
     "swagger-ui-express": "^4.1.6"

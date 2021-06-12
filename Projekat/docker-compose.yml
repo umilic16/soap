@@ -5,8 +5,8 @@ services:
         image: mongo
         volumes:
           - mongodata:/data/db
-    nats:
-        image: nats:latest
+    mqtt:
+      image: ncarlier/mqtt
     sensor:
         build:
             context: .
@@ -19,7 +19,7 @@ services:
         ports:
             - "3000:3000"
         depends_on:
-            - nats
+            - mqtt
     data:
         build:
             context: .
@@ -32,7 +32,7 @@ services:
         ports:
             - "4000:4000"
         depends_on:
-            - nats
+            - mqtt
             - mongo
         links:
             - mongo
