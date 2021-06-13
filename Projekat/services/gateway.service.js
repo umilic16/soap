@@ -1,21 +1,20 @@
-const gateway = require("moleculer-web");
-const express = require("express");
+const ApiGateway = require('moleculer-web');
+const IO = require("socket.io");
 
 module.exports = {
     name: "gateway",
-    mixins: [gateway],
+    mixins: [ApiGateway],
 
     settings: {
         port: process.env.PORT || 3000,
         ip: "0.0.0.0",
-        // Global CORS settings for all routes
         cors: {
             // Configures the Access-Control-Allow-Origin CORS header.
             origin: "*",
-            // Configures the Access-Control-Allow-Methods CORS header. 
+            // Configures the Access-Control-Allow-Methods CORS header.
             methods: ["GET", "OPTIONS", "POST", "PUT", "DELETE"],
             // Configures the Access-Control-Allow-Headers CORS header.
-            allowedHeaders: [],
+            allowedHeaders: ['content-type'],
             // Configures the Access-Control-Expose-Headers CORS header.
             exposedHeaders: [],
             // Configures the Access-Control-Allow-Credentials CORS header.
@@ -23,7 +22,6 @@ module.exports = {
             // Configures the Access-Control-Max-Age CORS header.
             maxAge: 3600
         },
-
         routes: [{
             path: "/api",
 
@@ -34,34 +32,29 @@ module.exports = {
             //     credentials: true
             // },
             // aliases: {
-            //     "GET users": "users.list",
-            //     "GET users/:id": "users.get",
-            //     "POST users": "users.create",
-            //     "PUT users/:id": "users.update",
-            //     "DELETE users/:id": "users.remove"
+            //     "GET /sensor": "sensor.getParams",
+            //     "GET /data": "data.getData",
+            //     "GET /data/:id": "data.getByID",
+            //     "POST /sensor": "sensor.setParams",
             // },
-            aliases: {
-                "GET /sensor": "sensor.getParams",
-                "GET /data": "data.getData",
-                "GET /data/:id": "data.getByID",
-                "POST /sensor": "sensor.setParams",
-            },
             autoAliases: true
-        }]
+        }],
     },
     started() {
-        const app = express();
+        this.io = IO(this.server, {
+            cors: {
+                origin: "*",
+                methods: ["GET", "POST"]
+            }
+        });
 
-        // Use ApiGateway as middleware
-        // app.use("/api", this.express());
-        // app.listen(this.settings.port);
-        // this.app = app;
-        // Listening
-        // app.listen(4321, err => {
-        //     if (err)
-        //         return console.error(err);
+        this.io.on("connection", client => {
+            this.logger.info("Client connected via websocket!");
 
-        //     console.log("Open http://localhost:4321/api/test/hello");
-        // });
+            client.on("disconnect", () => {
+                this.logger.info("Client disconnected");
+            });
+
+        });
     }
-}
+};

@@ -1,7 +1,31 @@
-@app:name('analytics')
+@App:name('analytics')
 
-@source(type = 'http', receiver.url = "http://siddhi:6000/analytics", @map(type = 'json'))
-define stream InputStream (High int, Low int);
 
-@sink(type='http', publisher.url='http://gateway:4321/api/analytics/CEPResponse',method='POST', @map(type='json'))
-define stream OutputStream ();
+@App:description('Description of the plan')
+
+@sink(type='http', 
+        publisher.url='http://gateway:4321/api/analytics/CEPResponse',
+        method='POST', 
+        headers='Content-type:application/json', 
+        basic.auth.enabled='false', 
+        @map(type='json'))
+
+define stream OutputStream (open float, result string);
+
+@source(type = 'http', 
+        receiver.url = "http://siddhi:6000/analytics",  
+        @map(type = 'json'))
+
+@Annotation(property = "value")
+define stream InputStream (open float);
+
+@info(name = 'Open')
+from InputStream#window.length(1)[open > 0] 
+select open,
+ifThenElse(open < 0.000225, "Trenutna cena je pateticna", 
+ifThenElse(open < 0.00025, "Trenutna cena je tuzna",
+ifThenElse(open < 0.000275, "Trenutna cena je OK",
+ifThenElse(open < 0.0003, "Trenutna cena je dobra",
+ifThenElse(open < 0.00035, "Trenutna cena je odlicna",
+ifThenElse(open < 0.0004, "Trenutna cena je kao gorivo u Srbiji", "Trenutna cena ne moze biti bolja")))))) as result
+insert into OutputStream;

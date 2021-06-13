@@ -31,8 +31,8 @@ var swaggerDefinition = {
       description: 'Demonstrating how to describe a RESTful API with Swagger',
     },
     host: 'localhost:3000',
-    basePath: '/',
-  };
+    basePath: '/'
+};
   
   // options for the swagger docs
   var options = {
@@ -43,7 +43,7 @@ var swaggerDefinition = {
   };
   
   // initialize swagger-jsdoc
-  var swaggerSpec = swaggerJsDoc(options);
+var swaggerSpec = swaggerJsDoc(options);
 
 //swagger odbija da saradjuje posle 100000 pokusaja
 
@@ -56,7 +56,6 @@ module.exports = {
         init(){
             this.type="default";
             this.interval=5000;
-            //da koristim threshold kao prosecna cena?
             this.threshold=0.0004;
             this.startReading();
         },

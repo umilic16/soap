@@ -33,7 +33,7 @@ module.exports = {
             })
         },
         getByID(req, res){
-            this.adapter.findOne({_id: new ObjectId("60c4e973cb237d0014f7dea5")}).then((result)=>{
+            this.adapter.findOne({_id: new ObjectId(req.params.id)}).then((result)=>{
                 // console.log(result);
                 res.send(result);
             })
