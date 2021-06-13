@@ -1,0 +1,7 @@
+@app:name('analytics')
+
+@source(type = 'http', receiver.url = "http://siddhi:6000/analytics", @map(type = 'json'))
+define stream InputStream (High int, Low int);
+
+@sink(type='http', publisher.url='http://gateway:4321/api/analytics/CEPResponse',method='POST', @map(type='json'))
+define stream OutputStream ();

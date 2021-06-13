@@ -2,6 +2,7 @@
 
 const express = require("express")
 const bodyParser = require("body-parser")
+const ObjectId = require("mongodb").ObjectID;
 const DbService = require("../mixins/db.mixin")
 
 module.exports = {
@@ -32,9 +33,8 @@ module.exports = {
             })
         },
         getByID(req, res){
-            console.log(req.params.id);
-            this.adapter.find(req.params.id).then((result)=>{
-                console.log(result);
+            this.adapter.findOne({_id: new ObjectId("60c4e973cb237d0014f7dea5")}).then((result)=>{
+                // console.log(result);
                 res.send(result);
             })
         },
@@ -45,6 +45,7 @@ module.exports = {
             handler(payload){
                 //console.log("Recieved data.recieved signal in data service with payload ", payload);
                 this.adapter.insert(payload)
+                this.broker.emit("analytics.data", payload);
             }
         }
     },

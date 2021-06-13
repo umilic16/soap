@@ -56,6 +56,7 @@ module.exports = {
         init(){
             this.type="default";
             this.interval=5000;
+            //da koristim threshold kao prosecna cena?
             this.threshold=0.0004;
             this.startReading();
         },
@@ -88,7 +89,7 @@ module.exports = {
                     let index = 0;
                     this.intr = setInterval(() =>{
                         let element=data[index];
-                        console.log(element["Open"], this.interval, this.threshold);
+                        // console.log(element["Open"], this.interval, this.threshold);
                         if(element["Open"]>this.threshold)
                             this.broker.emit("data.recieved", element);
                         index++;
