@@ -24,7 +24,6 @@ module.exports = {
         },
         routes: [{
             path: "/api",
-
             // Route CORS settings (overwrite global settings)
             // cors: {
             //     origin: ["http://localhost:3000", "https://localhost:4000"],
@@ -36,6 +35,7 @@ module.exports = {
             //     "GET /data": "data.getData",
             //     "GET /data/:id": "data.getByID",
             //     "POST /sensor": "sensor.setParams",
+            //     "GET /gateway/list-aliases" : "gateway.listAliases"
             // },
             autoAliases: true
         }],

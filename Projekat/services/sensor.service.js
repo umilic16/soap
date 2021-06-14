@@ -1,51 +1,10 @@
 "use strict";
 
-const express = require("express")
-const bodyParser = require("body-parser")
+const express = require("express");
+const bodyParser = require("body-parser");
 
-const fs = require('fs')
-
-const swaggerJsDoc = require("swagger-jsdoc")
-const swaggerUi = require("swagger-ui-express")
-
-// const swaggerOptions = {
-//     swaggerDefinition: {
-//         info:{
-//             title: "API Documentation",
-//             description: "Projekat 1 - SOA. API Documentation",
-//             contact:{
-//                 name: "Uros Milic"
-//             },
-//             servers: ["http://localhost:3000"]
-//         }
-//     },
-//     apis:[".services/*.js"]
-// };
-
-// const swaggerSpec = swaggerJsDoc(swaggerOptions);
-// swagger definition
-var swaggerDefinition = {
-    info: {
-      title: 'Node Swagger API',
-      version: '1.0.0',
-      description: 'Demonstrating how to describe a RESTful API with Swagger',
-    },
-    host: 'localhost:3000',
-    basePath: '/'
-};
-  
-  // options for the swagger docs
-  var options = {
-    // import swaggerDefinitions
-    swaggerDefinition: swaggerDefinition,
-    // path to the API docs
-    apis: ["sensor.service.js"],
-  };
-  
-  // initialize swagger-jsdoc
-var swaggerSpec = swaggerJsDoc(options);
-
-//swagger odbija da saradjuje posle 100000 pokusaja
+const fs = require('fs');
+const { stopped } = require("moleculer-web");
 
 module.exports = {
     name: "sensor",
@@ -53,31 +12,7 @@ module.exports = {
         port: process.env.PORT || 3000
     },
     methods: {
-        init(){
-            this.type="default";
-            this.interval=5000;
-            this.threshold=0.0004;
-            this.startReading();
-        },
-        initRoutes(app){
-            /**
-             * @swagger
-             * path:
-             *  /sensor:
-             * get:
-             *  description: Get
-             */
-            app.get("/sensor",this.getParams);
-            /**
-             * @swagger
-             * path:
-             *  /sensor:
-             * post:
-             *  description: Post
-             */
-            app.post("/sensor",this.setParams);
-        },
-        startReading(){
+        startReading() {
             fs.readFile('dodgecoinstats.json', 'utf8', (err, jsonString) => {
                 if (err) {
                     console.log("Error reading file from disk:", err)
@@ -85,45 +20,84 @@ module.exports = {
                 }
                 try {
                     const data = JSON.parse(jsonString)
-                    let index = 0;
-                    this.intr = setInterval(() =>{
-                        let element=data[index];
+                    this.intr = setInterval(() => {
+                        let element = data[this.index];
                         // console.log(element["Open"], this.interval, this.threshold);
-                        if(element["Open"]>this.threshold)
+                        if (element["Open"] > this.threshold) {
+                            // console.log("Sensor service sending to data service: ", element);
                             this.broker.emit("data.recieved", element);
-                        index++;
+                        }
+                        this.index++;
                     }, this.interval);
-                    // this.scanData(data,index);
-                } catch(err) {
+                } catch (err) {
                     console.log('Error parsing JSON string:', err)
                 }
             })
-        },
-        getParams(req, res){
-            res.json({
-                type: this.type,
-                interval: this.interval,
-                threshold: this.threshold
-            })
-        },
-        setParams(req, res){
-            const body = req.body;
-            this.type = body.type;
-            this.interval = body.interval;
-            this.threshold = body.threshold;
-            clearInterval(this.intr);
-            this.startReading();
-            res.send("Sensor edited");
         }
     },
-    created(){
+    actions: {
+        getParams: {
+            rest: {
+                method: "GET",
+                path: "/"
+            },
+            async handler(ctx) {
+                // console.log("test 123 test 123");
+                return {
+                    type: this.type,
+                    interval: this.interval,
+                    threshold: this.threshold
+                }
+            }
+        },
+        setParams: {
+            rest: {
+                method: "POST",
+                path: "/"
+            },
+            async handler(ctx) {
+                const body = ctx.params;
+                // console.log(ctx);
+                this.type = body.type ? body.type : this.type;
+                this.interval = body.interval ? body.interval : this.interval;
+                this.threshold = body.threshold ? body.threshold : this.threshold;
+                clearInterval(this.intr);
+                this.startReading();
+                return "Sensor edited";
+            }
+        },
+        changeThreshold: {
+            rest: {
+                method: "POST",
+                path: "/changeThreshold",
+            },
+            async handler(ctx) {
+                // console.log("change price ctx: ", ctx);
+                const send = {
+                    interval: this.interval,
+                    threshold: this.threshold,
+                    price: ctx.params.payload
+                }
+                // console.log(`Calling command ${ctx.params.command} cause the price is ${ctx.params.payload}`);
+                if (ctx.params.command == "high") {
+                    this.broker.call("actuator.high", send);
+                }
+                else {
+                    this.broker.call("actuator.low", send);
+                }
+            },
+        },
+    },
+    created() {
         const app = express();
-        app.use(bodyParser.urlencoded({extended: false}));
+        app.use(bodyParser.urlencoded({ extended: false }));
         app.use(bodyParser.json());
-        app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
         app.listen(this.settings.port);
-        this.initRoutes(app);
-        this.init();
-        this.app=app;
+        this.type = "default";
+        this.interval = 5000;
+        this.threshold = 0.0004;
+        this.index=0;
+        this.startReading();
+        this.app = app;
     }
 }

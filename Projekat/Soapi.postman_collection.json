@@ -1,0 +1,394 @@
+{
+	"info": {
+		"_postman_id": "f8c76f5f-db33-4a58-a04a-af6b2a6fa41b",
+		"name": "Soapi",
+		"description": "# Introduction\nWhat does your API do?\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests an user can send?",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get sensor params",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4321/api/sensor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"api",
+						"sensor"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Default values",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4321/api/sensor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4321",
+							"path": [
+								"api",
+								"sensor"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Request-ID",
+							"value": "9a073258-4786-45e9-aa80-d284db856d83"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 14 Jun 2021 18:29:29 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						},
+						{
+							"key": "Content-Length",
+							"value": "53"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"type\": \"default\",\n    \"interval\": 5000,\n    \"threshold\": 0.0004\n}"
+				}
+			]
+		},
+		{
+			"name": "Set sensor params",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"test\",\r\n    \"interval\": 1000,\r\n    \"threshold\": 0.0002\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4321/api/sensor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"api",
+						"sensor"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Test change",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"interval\": 1000,\r\n    \"type\": \"test\",\r\n    \"threshold\": 0.00035\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4321/api/sensor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4321",
+							"path": [
+								"api",
+								"sensor"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Request-ID",
+							"value": "054f3a49-1dcd-4952-bfd3-75dbb49222d3"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 14 Jun 2021 18:29:48 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						},
+						{
+							"key": "Content-Length",
+							"value": "15"
+						}
+					],
+					"cookie": [],
+					"body": "\"Sensor edited\""
+				}
+			]
+		},
+		{
+			"name": "Get all data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4321/api/data",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"api",
+						"data"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get all",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4321/api/data",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4321",
+							"path": [
+								"api",
+								"data"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Request-ID",
+							"value": "d933e9fb-caea-4d67-aaac-bae9ec7fc478"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 14 Jun 2021 18:29:57 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1619"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"rows\": [\n        {\n            \"_id\": \"60c797587c790d0015f74f91\",\n            \"Date\": \"2014-09-27\",\n            \"Open\": 0.00045,\n            \"High\": 0.000452,\n            \"Low\": 0.000359,\n            \"Close\": 0.000375,\n            \"Adj Close\": 0.000375,\n            \"Volume\": 2907080\n        },\n        {\n            \"_id\": \"60c7995aabf32d0014998ac2\",\n            \"Date\": \"2014-09-27\",\n            \"Open\": 0.00045,\n            \"High\": 0.000452,\n            \"Low\": 0.000359,\n            \"Close\": 0.000375,\n            \"Adj Close\": 0.000375,\n            \"Volume\": 2907080\n        },\n        {\n            \"_id\": \"60c79a632b75680014ef75b7\",\n            \"Date\": \"2014-09-17\",\n            \"Open\": 0.000293,\n            \"High\": 0.000299,\n            \"Low\": 0.00026,\n            \"Close\": 0.000268,\n            \"Adj Close\": 0.000268,\n            \"Volume\": 1463600\n        },\n        {\n            \"_id\": \"60c79a662b75680014ef75b8\",\n            \"Date\": \"2014-09-18\",\n            \"Open\": 0.000268,\n            \"High\": 0.000325,\n            \"Low\": 0.000267,\n            \"Close\": 0.000298,\n            \"Adj Close\": 0.000298,\n            \"Volume\": 2215910\n        },\n        {\n            \"_id\": \"60c79a692b75680014ef75b9\",\n            \"Date\": \"2014-09-19\",\n            \"Open\": 0.000298,\n            \"High\": 0.000307,\n            \"Low\": 0.000275,\n            \"Close\": 0.000277,\n            \"Adj Close\": 0.000277,\n            \"Volume\": 883563\n        },\n        {\n            \"_id\": \"60c79a6c2b75680014ef75ba\",\n            \"Date\": \"2014-09-20\",\n            \"Open\": 0.000276,\n            \"High\": 0.00031,\n            \"Low\": 0.000267,\n            \"Close\": 0.000292,\n            \"Adj Close\": 0.000292,\n            \"Volume\": 993004\n        },\n        {\n            \"_id\": \"60c79a6f2b75680014ef75bb\",\n            \"Date\": \"2014-09-21\",\n            \"Open\": 0.000293,\n            \"High\": 0.000299,\n            \"Low\": 0.000284,\n            \"Close\": 0.000288,\n            \"Adj Close\": 0.000288,\n            \"Volume\": 539140\n        },\n        {\n            \"_id\": \"60c79a722b75680014ef75bc\",\n            \"Date\": \"2014-09-22\",\n            \"Open\": 0.000288,\n            \"High\": 0.000301,\n            \"Low\": 0.000285,\n            \"Close\": 0.000298,\n            \"Adj Close\": 0.000298,\n            \"Volume\": 620222\n        },\n        {\n            \"_id\": \"60c79a752b75680014ef75bd\",\n            \"Date\": \"2014-09-23\",\n            \"Open\": 0.000298,\n            \"High\": 0.000318,\n            \"Low\": 0.000295,\n            \"Close\": 0.000313,\n            \"Adj Close\": 0.000313,\n            \"Volume\": 739197\n        },\n        {\n            \"_id\": \"60c79a782b75680014ef75be\",\n            \"Date\": \"2014-09-24\",\n            \"Open\": 0.000314,\n            \"High\": 0.000353,\n            \"Low\": 0.00031,\n            \"Close\": 0.000348,\n            \"Adj Close\": 0.000348,\n            \"Volume\": 1277840\n        }\n    ],\n    \"total\": 46,\n    \"page\": 1,\n    \"pageSize\": 10,\n    \"totalPages\": 5\n}"
+				}
+			]
+		},
+		{
+			"name": "Get data by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4321/api/data/60c79a782b75680014ef75be",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"api",
+						"data",
+						"60c79a782b75680014ef75be"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get by ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4321/api/data/60c79a782b75680014ef75be",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4321",
+							"path": [
+								"api",
+								"data",
+								"60c79a782b75680014ef75be"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Request-ID",
+							"value": "92bfdce8-41e9-4be1-9bfd-1ba7c1a90ea6"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 14 Jun 2021 18:30:19 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						},
+						{
+							"key": "Content-Length",
+							"value": "155"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"_id\": \"60c79a782b75680014ef75be\",\n    \"Date\": \"2014-09-24\",\n    \"Open\": 0.000314,\n    \"High\": 0.000353,\n    \"Low\": 0.00031,\n    \"Close\": 0.000348,\n    \"Adj Close\": 0.000348,\n    \"Volume\": 1277840\n}"
+				}
+			]
+		},
+		{
+			"name": "Get all endpoints from API Gateway",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4321/api/gateway/list-aliases",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"api",
+						"gateway",
+						"list-aliases"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Endpoints",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4321/api/gateway/list-aliases",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4321",
+							"path": [
+								"api",
+								"gateway",
+								"list-aliases"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Request-ID",
+							"value": "5e995dae-12be-4139-9e11-3d18a54b1df2"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 14 Jun 2021 18:30:29 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1856"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"actionName\": \"analytics.ComplexAnalysis\",\n        \"path\": \"analytics/ComplexAnalysis\",\n        \"fullPath\": \"/api/analytics/ComplexAnalysis\",\n        \"methods\": \"POST\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"gateway.listAliases\",\n        \"path\": \"gateway/list-aliases\",\n        \"fullPath\": \"/api/gateway/list-aliases\",\n        \"methods\": \"GET\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"analytics.get\",\n        \"path\": \"analytics/:id\",\n        \"fullPath\": \"/api/analytics/:id\",\n        \"methods\": \"GET\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"analytics.update\",\n        \"path\": \"analytics/:id\",\n        \"fullPath\": \"/api/analytics/:id\",\n        \"methods\": \"PUT\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"analytics.remove\",\n        \"path\": \"analytics/:id\",\n        \"fullPath\": \"/api/analytics/:id\",\n        \"methods\": \"DELETE\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"data.get\",\n        \"path\": \"data/:id\",\n        \"fullPath\": \"/api/data/:id\",\n        \"methods\": \"GET\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"data.update\",\n        \"path\": \"data/:id\",\n        \"fullPath\": \"/api/data/:id\",\n        \"methods\": \"PUT\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"data.remove\",\n        \"path\": \"data/:id\",\n        \"fullPath\": \"/api/data/:id\",\n        \"methods\": \"DELETE\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"analytics.list\",\n        \"path\": \"analytics\",\n        \"fullPath\": \"/api/analytics\",\n        \"methods\": \"GET\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"analytics.create\",\n        \"path\": \"analytics\",\n        \"fullPath\": \"/api/analytics\",\n        \"methods\": \"POST\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"data.list\",\n        \"path\": \"data\",\n        \"fullPath\": \"/api/data\",\n        \"methods\": \"GET\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"data.create\",\n        \"path\": \"data\",\n        \"fullPath\": \"/api/data\",\n        \"methods\": \"POST\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"data.getData\",\n        \"path\": \"data\",\n        \"fullPath\": \"/api/data\",\n        \"methods\": \"GET\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"data.getByID\",\n        \"path\": \"data\",\n        \"fullPath\": \"/api/data\",\n        \"methods\": \"GET\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"sensor.getParams\",\n        \"path\": \"sensor\",\n        \"fullPath\": \"/api/sensor\",\n        \"methods\": \"GET\",\n        \"routePath\": \"/api\"\n    },\n    {\n        \"actionName\": \"sensor.setParams\",\n        \"path\": \"sensor\",\n        \"fullPath\": \"/api/sensor\",\n        \"methods\": \"POST\",\n        \"routePath\": \"/api\"\n    }\n]"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}

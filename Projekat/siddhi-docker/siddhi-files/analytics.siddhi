@@ -4,13 +4,13 @@
 @App:description('Description of the plan')
 
 @sink(type='http', 
-        publisher.url='http://gateway:4321/api/analytics/CEPResponse',
+        publisher.url='http://gateway:4321/api/analytics/ComplexAnalysis',
         method='POST', 
         headers='Content-type:application/json', 
         basic.auth.enabled='false', 
         @map(type='json'))
 
-define stream OutputStream (open float, result string);
+define stream OutputStream (open float, result string, flag int);
 
 @source(type = 'http', 
         receiver.url = "http://siddhi:6000/analytics",  
@@ -19,7 +19,7 @@ define stream OutputStream (open float, result string);
 @Annotation(property = "value")
 define stream InputStream (open float);
 
-@info(name = 'Open')
+@info(name = 'Query')
 from InputStream#window.length(1)[open > 0] 
 select open,
 ifThenElse(open < 0.000225, "Trenutna cena je pateticna", 
@@ -27,5 +27,7 @@ ifThenElse(open < 0.00025, "Trenutna cena je tuzna",
 ifThenElse(open < 0.000275, "Trenutna cena je OK",
 ifThenElse(open < 0.0003, "Trenutna cena je dobra",
 ifThenElse(open < 0.00035, "Trenutna cena je odlicna",
-ifThenElse(open < 0.0004, "Trenutna cena je kao gorivo u Srbiji", "Trenutna cena ne moze biti bolja")))))) as result
+ifThenElse(open < 0.0004, "Trenutna cena je kao gorivo u Srbiji", "Trenutna cena ne moze biti bolja")))))) as result,
+
+ifThenElse(open < 0.000275, 1, 2) as flag
 insert into OutputStream;

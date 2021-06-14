@@ -73,5 +73,23 @@ services:
             - "4321:4321"
         depends_on:
             - mqtt
+    actuator:
+        build:
+            context: .
+        env_file: docker-compose.env
+        environment:
+            NODEID: "node-actuator"
+            SERVICES: actuator
+        depends_on:
+            - mqtt
+    command:
+        build:
+            context: .
+        env_file: docker-compose.env
+        environment:
+            NODEID: "node-command"
+            SERVICES: command
+        depends_on:
+            - mqtt
 volumes:
     mongodata:
